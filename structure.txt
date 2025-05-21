@@ -1,0 +1,111 @@
+Project Structure: Secure Drive Storage API
+==================================
+
+Root Directory Structure
+-----------------------
+secure-drive-storage-api/
+├── src/                           # Source code directory
+│   ├── controllers/              # Request handlers
+│   │   └── file.controller.js    # File operations controller
+│   ├── middleware/              # Custom middleware
+│   │   └── auth.middleware.js   # Authentication middleware
+│   ├── models/                  # Database models
+│   │   └── file.model.js       # File schema and model
+│   ├── routes/                  # API routes
+│   │   └── file.routes.js      # File-related route definitions
+│   └── index.js                # Main application entry point
+│
+├── tests/                        # Testing directory
+│   ├── unit/                    # Unit tests
+│   │   └── file.controller.test.js
+│   ├── integration/            # Integration tests
+│   ├── fixtures/              # Test data and mock files
+│   │   └── test.txt          # Sample test file
+│   └── setup.js              # Test configuration setup
+│
+├── examples/                     # Example code directory
+│   ├── utils/                  # Utility scripts
+│   │   └── generate-token.js  # JWT token generator
+│   └── test-api.js            # API testing example
+│
+├── uploads/                      # File storage directory
+│
+├── Configuration Files
+│   ├── package.json            # Project dependencies and scripts
+│   ├── jest.config.js         # Jest test configuration
+│   └── .env.example           # Environment variables template
+│
+└── Documentation
+    ├── README.md              # Project overview and setup guide
+    └── STORAGE_API_USAGE.md   # API usage documentation
+
+Key Components
+-------------
+1. API Endpoints
+   - POST   /api/files/upload            # Upload encrypted file
+   - GET    /api/files/list             # Get accessible files
+   - GET    /api/files/download/:fileId # Download encrypted file
+   - DELETE /api/files/:fileId          # Delete file
+   - PUT    /api/files/:fileId/permissions # Update permissions
+
+2. Security Features
+   - Client-side AES-GCM encryption
+   - RSA key wrapping
+   - JWT authentication
+   - Role-based access control
+   - Secure key management
+
+3. Testing Coverage
+   - Unit tests for controllers
+   - Integration tests for API
+   - Security testing
+   - Permission testing
+
+4. Development Tools
+   - Nodemon for auto-reload
+   - Jest for testing
+   - ESLint for code quality
+   - MongoDB for data storage
+
+Team Responsibilities
+-------------------
+1. Frontend Team
+   - Client-side encryption implementation
+   - File upload/download interface
+   - User authentication flow
+
+2. Storage API Team (Current Focus)
+   - File storage management
+   - Permission control
+   - API endpoint implementation
+
+3. Security Team
+   - Encryption protocols
+   - Key management
+   - Access control implementation
+
+4. Testing Team
+   - Test suite maintenance
+   - Coverage reporting
+   - Security testing
+
+Development Workflow
+------------------
+1. Local Setup
+   - Clone repository
+   - Install dependencies
+   - Configure environment
+   - Start MongoDB
+   - Run development server
+
+2. Testing Process
+   - Run unit tests
+   - Perform integration testing
+   - Check security measures
+   - Validate permissions
+
+3. Deployment Steps
+   - Environment configuration
+   - Database migration
+   - Security verification
+   - Service deployment 
