@@ -1,0 +1,13 @@
+# Node.js modules
+node_modules/
+
+# Output folders
+dist/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

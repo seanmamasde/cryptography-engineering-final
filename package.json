@@ -1,0 +1,22 @@
+{
+  "name": "crypto-api",
+  "version": "1.0.0",
+  "description": "Client-Side Encryption / Decryption module (AES-GCM + RSA-OAEP)",
+  "type": "module",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc --build",
+    "test": "jest",
+    "lint": "eslint src --ext .ts"
+  },
+  "keywords": ["aes-gcm", "rsa-oaep", "webcrypto", "cse"],
+  "author": "Team 哦真假？ – Encryption Submodule",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.4.0"
+  }
+}
