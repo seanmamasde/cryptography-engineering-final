@@ -34,9 +34,11 @@ To run the project locally, follow these steps:
 3. Create a Firebase project and configure it for this application.
 4. Set up authentication and real-time database in Firebase.
 5. Configure the environment variables in `.env` checkout [.env.example](./.env.example)
-6. Start the development server using `npm run dev`.
+6. Initialize the database using: `npx prisma migrate deploy` (this will be done automatically on startup, but you can run it manually if needed).
+7. Start the development server using `npm run dev`.
+8. Start the KMS server in another terminal using `cd kms-server && npm run dev`.
 
-The application should now be running on your local environment. You can access it at [http://localhost:3000](http://localhost:3000).
+The application should now be running on your local environment. You can access it at [http://localhost:3000](http://localhost:3000). The KMS server will be running on port 4000.
 
 ### Issues and Feedback
 
