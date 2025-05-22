@@ -2,12 +2,16 @@ import { fetchAllFiles } from "@/hooks/fetchAllFiles";
 import { useSession } from "next-auth/react";
 import React, { useState, useEffect, useRef } from "react";
 import { AiFillFolder, AiOutlineSearch } from "react-icons/ai";
+import { MdRemoveRedEye, MdOpenInNew } from "react-icons/md";
 import fileIcons from "../fileIcons";
 import { useRouter } from "next/router";
+import EncryptedViewer from "../EncryptedViewer";
 
-function Search() {
+function Search() {  
   const [searchTest, setSearchTest] = useState<string>("");
   const [onFocus, setOnFocus] = useState<boolean>(false);
+  const [viewingEncrypted, setViewingEncrypted] = useState<boolean>(false);
+  const [selectedFileId, setSelectedFileId] = useState<string>("");
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const { data: session } = useSession();
@@ -31,6 +35,12 @@ function Search() {
         !item?.isTrashed)
     );
   });
+  
+  // Function to view encrypted content
+  const viewEncrypted = (fileId: string) => {
+    setSelectedFileId(fileId);
+    setViewingEncrypted(true);
+  };
 
   const result = searchList.map((item) => {
     // Create a list of search results.
@@ -39,6 +49,7 @@ function Search() {
       fileIcons["any"];
     return (
       <div
+        key={item.id}
         onClick={() => {
           item.isFolder
             ? router.push("/drive/folders/" + item.id)
@@ -56,6 +67,20 @@ function Search() {
         <span className="w-full truncate">
           {item.fileName || item.folderName}
         </span>
+        
+        {/* View Encrypted button for files only */}
+        {!item.isFolder && (
+          <span 
+            className="flex items-center ml-auto"
+            onClick={(e) => {
+              e.stopPropagation();  // Prevent triggering the parent div's onClick
+              viewEncrypted(item.id);
+            }}
+            title="View encrypted content"
+          >
+            <MdRemoveRedEye className="h-5 w-5 text-gray-600 hover:text-blue-600" />
+          </span>
+        )}
       </div>
     );
   });
@@ -78,7 +103,7 @@ function Search() {
       document.removeEventListener("click", handleDocumentClick);
     };
   }, []);
-
+  
   return (
     <div className="relative flex-1" onFocus={() => setOnFocus(true)}>
       <span className="absolute left-2 top-[5px] h-9 w-9 cursor-pointer rounded-full p-2 hover:bg-darkC">
@@ -107,6 +132,17 @@ function Search() {
             result
           )}
         </div>
+      )}
+
+      {/* Encrypted Viewer Modal */}
+      {viewingEncrypted && selectedFileId && (
+        <EncryptedViewer 
+          fileId={selectedFileId} 
+          onClose={() => {
+            setViewingEncrypted(false);
+            setSelectedFileId("");
+          }} 
+        />
       )}
     </div>
   );

@@ -3,15 +3,19 @@ import { fetchFiles } from "@/hooks/fetchFiles";
 import Image from "next/image";
 import fileIcons from "@/components/fileIcons";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { MdRemoveRedEye } from "react-icons/md";
 import { encryptedDownload } from "@/API/EncryptedDownload";
 import { useSession } from "next-auth/react";
 import FileDropDown from "./FileDropDown";
 import { fetchAllFiles } from "@/hooks/fetchAllFiles";
 import Rename from "./Rename";
+import EncryptedViewer from "./EncryptedViewer";
 
 function GetFiles({ folderId, select }: { folderId: string; select: string }) {
   const [openMenu, setOpenMenu] = useState("");
   const [renameToggle, setRenameToggle] = useState("");
+  const [viewingEncrypted, setViewingEncrypted] = useState(false);
+  const [selectedFileId, setSelectedFileId] = useState("");
 
   const { data: session } = useSession();
 
@@ -37,6 +41,13 @@ function GetFiles({ folderId, select }: { folderId: string; select: string }) {
     // Toggle the dropdown for the given file
     setRenameToggle("");
     setOpenMenu((prevOpenMenu) => (prevOpenMenu === fileId ? "" : fileId));
+  };
+
+  // Function to view encrypted content
+  const viewEncrypted = (fileId: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent triggering the parent div's onDoubleClick
+    setSelectedFileId(fileId);
+    setViewingEncrypted(true);
   };
 
   const list = fileList.map((file) => {
@@ -98,10 +109,17 @@ function GetFiles({ folderId, select }: { folderId: string; select: string }) {
                   {file.fileName}
                 </span>
               </div>
-              <BsThreeDotsVertical
-                onClick={() => handleMenuToggle(file.id)}
-                className="h-6 w-6 cursor-pointer rounded-full p-1 hover:bg-[#ccc]"
-              />
+              <div className="flex items-center space-x-2">
+                <MdRemoveRedEye
+                  onClick={(e) => viewEncrypted(file.id, e)}
+                  className="h-5 w-5 cursor-pointer text-gray-600 hover:text-blue-600"
+                  title="View encrypted content"
+                />
+                <BsThreeDotsVertical
+                  onClick={() => handleMenuToggle(file.id)}
+                  className="h-6 w-6 cursor-pointer rounded-full p-1 hover:bg-[#ccc]"
+                />
+              </div>
               {
                 /* drop down */
                 openMenu === file.id && (
@@ -138,7 +156,21 @@ function GetFiles({ folderId, select }: { folderId: string; select: string }) {
   });
 
   // the list of files
-  return list;
+  return (
+    <>
+      {list}
+      {/* Encrypted Viewer Modal */}
+      {viewingEncrypted && selectedFileId && (
+        <EncryptedViewer
+          fileId={selectedFileId}
+          onClose={() => {
+            setViewingEncrypted(false);
+            setSelectedFileId("");
+          }}
+        />
+      )}
+    </>
+  );
 }
 
 export default GetFiles;
