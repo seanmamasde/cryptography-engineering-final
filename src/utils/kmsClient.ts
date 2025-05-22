@@ -1,4 +1,4 @@
-import type { EncryptResponse } from "../types";
+import type { EncryptResponse } from "../types.ts";
 
 export async function encryptViaKms(file: File): Promise<EncryptResponse> {
   const form = new FormData();

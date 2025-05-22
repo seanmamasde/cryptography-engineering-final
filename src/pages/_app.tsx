@@ -4,14 +4,14 @@ import { type AppType } from "next/app";
 import "@/styles/globals.css";
 import Header from "@/components/headerComponents/Header";
 import SideMenu from "@/components/SideMenu";
+import { DatabaseStatus } from "@/components/DatabaseStatus";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <SessionProvider session={session}>
-      <main className="flex h-screen flex-col items-center justify-between overflow-hidden bg-bgc">
+    <SessionProvider session={session}>      <main className="flex h-screen flex-col items-center justify-between overflow-hidden bg-bgc">
         <Header />
         <section className="mb-5 flex h-full w-screen flex-1 px-5 pr-16">
           <div>
@@ -23,6 +23,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
             </div>
           </div>
         </section>
+        <DatabaseStatus />
       </main>
     </SessionProvider>
   );
