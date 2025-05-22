@@ -1,6 +1,6 @@
-import type { EncryptResponse } from "../types.ts";
+import type { EncryptedResponse } from "../types";
 
-export async function encryptViaKms(file: File): Promise<EncryptResponse> {
+export async function encryptViaKms(file: File): Promise<EncryptedResponse> {
   const form = new FormData();
   form.append("file", file);
   const res = await fetch("http://localhost:4000/encrypt", {
